@@ -1,6 +1,7 @@
 import { OrgsRepository } from '@/repositories/orgs-repository'
-import { Prisma } from 'generated/prisma'
 import { hash } from 'bcrypt'
+import { OrgAlreadyExistsError } from '../errors/org-already-exists.error'
+import { Organization } from 'generated/prisma'
 
 interface RegisterServiceProps {
   name: string
@@ -16,10 +17,20 @@ interface RegisterServiceProps {
   complement: string | null
 }
 
+export interface RegisterServiceResponse {
+  org: Organization
+}
+
 export class RegisterService {
   constructor(private orgsRepository: OrgsRepository) {}
 
-  async execute(data: RegisterServiceProps) {
+  async execute(data: RegisterServiceProps): Promise<RegisterServiceResponse> {
+    const userWithSameEmail = await this.orgsRepository.findByEmail(data.email)
+
+    if (userWithSameEmail) {
+      throw new OrgAlreadyExistsError()
+    }
+
     const password_hash = await hash(data.password, 6)
 
     const org = await this.orgsRepository.create({
