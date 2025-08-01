@@ -3,15 +3,39 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run --project unit",
+    "test:e2e": "vitest run --project e2e",
+    "test:watch": "vitest --project unit",
+    "test:watch:e2e": "vitest --project e2e",
+    "test:coverage": "vitest --project unit --coverage",
+    "test:ui": "vitest --project unit --ui"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^24.1.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.9.2"
+    "eslint": "^9.32.0",
+    "prisma": "^6.13.0",
+    "supertest": "^7.1.4",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/jwt": "^9.1.0",
+    "@prisma/client": "^6.13.0",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^17.2.1",
+    "fastify": "^5.4.0",
+    "zod": "^4.0.14"
   }
 }
