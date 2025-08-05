@@ -15,15 +15,20 @@ export const auth = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     const { org } = await makeAuthService().execute({ email, password })
 
-    const token = await reply.jwtSign({
-      sign: {
-        sub: org.id,
-      },
-    })
+    const token = await reply.jwtSign({}, { sign: { sub: org.id } })
 
-    return reply.status(200).send({
-      token,
-    })
+    const refreshToken = await reply.jwtSign({}, { sign: { sub: org.id } })
+
+    return reply
+      .setCookie('refreshToken', refreshToken, {
+        path: '/',
+        secure: true,
+        sameSite: true,
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      })
+      .status(200)
+      .send({ token })
   } catch (error) {
     if (error instanceof ResourceNotFoundError) {
       return reply.status(404).send({
