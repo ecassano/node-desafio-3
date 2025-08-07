@@ -9,12 +9,10 @@ let orgsRepository: InMemoryOrgsRepository
 let sut: AuthService
 
 describe('Auth Service', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     orgsRepository = new InMemoryOrgsRepository()
     sut = new AuthService(orgsRepository)
-  })
 
-  it('should be able to authenticate an organization', async () => {
     await orgsRepository.create({
       name: 'Test Organization',
       accountable_name: 'Test Accountable',
@@ -28,7 +26,9 @@ describe('Auth Service', () => {
       street: 'Test Street',
       complement: 'Test Complement',
     })
+  })
 
+  it('should be able to authenticate an organization', async () => {
     const { org } = await sut.execute({
       email: 'test@test.com',
       password: '123456',
@@ -38,20 +38,6 @@ describe('Auth Service', () => {
   })
 
   it('should not be able to authenticate with wrong email', async () => {
-    await orgsRepository.create({
-      name: 'Test Organization',
-      accountable_name: 'Test Accountable',
-      email: 'test@test.com',
-      whatsapp: '1234567890',
-      password_hash: await hash('123456', 6),
-      cep: '1234567890',
-      state: 'Test State',
-      city: 'Test City',
-      neighborhood: 'Test Neighborhood',
-      street: 'Test Street',
-      complement: 'Test Complement',
-    })
-
     await expect(
       sut.execute({
         email: 'wrong@test.com',
@@ -61,20 +47,6 @@ describe('Auth Service', () => {
   })
 
   it('should not be able to authenticate with wrong password', async () => {
-    await orgsRepository.create({
-      name: 'Test Organization',
-      accountable_name: 'Test Accountable',
-      email: 'test@test.com',
-      whatsapp: '1234567890',
-      password_hash: await hash('123456', 6),
-      cep: '1234567890',
-      state: 'Test State',
-      city: 'Test City',
-      neighborhood: 'Test Neighborhood',
-      street: 'Test Street',
-      complement: 'Test Complement',
-    })
-
     await expect(
       sut.execute({
         email: 'test@test.com',
