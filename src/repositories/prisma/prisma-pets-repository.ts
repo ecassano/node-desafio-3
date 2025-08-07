@@ -10,4 +10,14 @@ export class PrismaPetsRepository implements PetsRepository {
 
     return pet
   }
+
+  async findManyByOrgId(orgId: string): Promise<Pet[]> {
+    const pets = await prisma.pet.findMany({
+      where: {
+        org_id: orgId,
+      },
+    })
+
+    return pets
+  }
 }

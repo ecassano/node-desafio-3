@@ -22,4 +22,10 @@ export class InMemoryPetsRepository implements PetsRepository {
 
     return pet
   }
+
+  async findManyByOrgId(orgId: string): Promise<Pet[]> {
+    const pets = this.pets.filter(pet => pet.org_id === orgId)
+
+    return pets
+  }
 }

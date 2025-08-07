@@ -30,4 +30,14 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
     return org
   }
+
+  async findManyByCity(city: string): Promise<Organization[]> {
+    const orgs = await prisma.organization.findMany({
+      where: {
+        city,
+      },
+    })
+
+    return orgs
+  }
 }
