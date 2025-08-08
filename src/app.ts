@@ -22,7 +22,7 @@ app.register(fastifyJwt, {
 app.register(fastifyCookie)
 
 app.register(orgRoutes)
-app.register(petRoutes, { prefix: '/pets' })
+app.register(petRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
