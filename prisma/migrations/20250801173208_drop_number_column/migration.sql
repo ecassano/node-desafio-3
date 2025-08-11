@@ -5,4 +5,4 @@
 
 */
 -- AlterTable
-ALTER TABLE "public"."orgs" DROP COLUMN "number";
+ALTER TABLE "orgs" DROP COLUMN "number";
