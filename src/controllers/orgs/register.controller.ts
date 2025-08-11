@@ -35,7 +35,7 @@ export const register = async (
   } = registerSchema.parse(request.body)
 
   try {
-    makeRegisterService().execute({
+    await makeRegisterService().execute({
       name,
       accountable_name,
       email,
