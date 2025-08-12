@@ -11,10 +11,10 @@ export class InMemoryPetsRepository implements PetsRepository {
       name: data.name,
       description: data.description,
       age: data.age,
-      size: data.size,
-      energy_level: data.energy_level,
-      independence_level: data.independence_level,
-      environment: data.environment,
+      size: data.size ?? 'MEDIUM',
+      energy_level: data.energy_level ?? 'MEDIUM',
+      independence_level: data.independence_level ?? 'MEDIUM',
+      environment: data.environment ?? 'MODERATE_SPACE',
       org_id: data.org_id,
     }
 
